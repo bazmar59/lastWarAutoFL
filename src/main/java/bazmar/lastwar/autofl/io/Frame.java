@@ -11,7 +11,6 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -27,7 +26,6 @@ import bazmar.lastwar.autofl.LastWarMain;
 import bazmar.lastwar.autofl.data.BotType;
 import bazmar.lastwar.autofl.data.Constants;
 import bazmar.lastwar.autofl.data.Stats;
-import bazmar.lastwar.autofl.utils.FileManager;
 import bazmar.lastwar.autofl.utils.Utils;
 import ch.qos.logback.classic.Logger;
 
@@ -42,10 +40,12 @@ public class Frame {
 	private static JLabel currentBOT = new JLabel("", JLabel.CENTER);
 	private static JLabel timer = new JLabel("", JLabel.CENTER);
 	private static JTextArea logsTextArea = new JTextArea(50, 50);
-	private static JFrame frame = new JFrame("Bazmar FL Bot v1.0.0");
+	private static JFrame frame = new JFrame("Bazmar FL Bot v2.0.0");
 	private static JButton buttonScreenDebugFl = new JButton("FL debug screenshot");
 	private static JButton buttonScreenDebug1 = new JButton("SCREEN 1 debug screenshot");
 	private static JButton buttonScreenDebug2 = new JButton("SCREEN 2 debug screenshot");
+	private static JButton buttonResetRecoveryCount = new JButton("RESET Recovery");
+	private static JButton buttonResetStats = new JButton("RESET Stats");
 	private static JButton buttonUpPauseBetweenFlRoutine = new JButton("+");
 	private static JButton buttonDownPauseBetweenFlRoutine = new JButton("-");
 	private static JLabel pauseBetweenFlRoutine = new JLabel("Pause FL routine:", JLabel.CENTER);
@@ -58,10 +58,7 @@ public class Frame {
 	private static JLabel pauseBetweenFLValue = new JLabel(String.valueOf(LastWarMain.PAUSE_BETWEEN_FL_ACTION) + " ms",
 			JLabel.CENTER);
 
-	private static final String STATS_FL_TEXT = FileManager.readFile("stats.html");
-	private static JLabel statsJLabel = new JLabel(STATS_FL_TEXT.formatted(false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, new Date(), new Date(), new Date(), new Date(), new Date()), JLabel.CENTER);
-
+	private static JLabel statsJLabel = new JLabel("", JLabel.CENTER);
 	private static JButton buttonPause = new JButton("");
 
 	public static void createAndShowGUI() {
@@ -115,10 +112,12 @@ public class Frame {
 		gbc.gridwidth = 2;
 		panel.add(new JLabel("DEBUG", JLabel.CENTER), gbc);
 
-		JPanel panelDebugScreen = new JPanel(new GridLayout(1, 3));
+		JPanel panelDebugScreen = new JPanel(new GridLayout(2, 3));
 		panelDebugScreen.add(buttonScreenDebugFl);
 		panelDebugScreen.add(buttonScreenDebug1);
 		panelDebugScreen.add(buttonScreenDebug2);
+		panelDebugScreen.add(buttonResetRecoveryCount);
+		panelDebugScreen.add(buttonResetStats);
 
 		gbc.gridy = 6;
 		panel.add(panelDebugScreen, gbc);
@@ -204,6 +203,21 @@ public class Frame {
 			}
 		});
 
+		buttonResetRecoveryCount.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LastWarMain.resetRecoveryCount();
+			}
+		});
+
+		buttonResetStats.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LastWarMain.resetStats();
+				repaint();
+			}
+		});
+
 		buttonUpPauseBetweenFlRoutine.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -259,13 +273,7 @@ public class Frame {
 	}
 
 	public static void updateFrameStats(Stats stats) {
-		statsJLabel.setText(STATS_FL_TEXT.formatted(stats.isFlInitialized(), stats.getMoyenneFl(), stats.getCountFL(),
-				stats.getCountRecovery(), stats.getCountFLAdd(), stats.getCountStrat(), stats.getCountSecu(),
-				stats.getCountDev(), stats.getCountScience(), stats.getCountInter(), stats.getCountFLKick(),
-				stats.getCountKickStrat(), stats.getCountKickSecu(), stats.getCountKickDev(),
-				stats.getCountKickScience(), stats.getCountKickInter(), stats.getNextStratKickCheck(),
-				stats.getNextSecuKickCheck(), stats.getNextDevKickCheck(), stats.getNextScienceKickCheck(),
-				stats.getNextInterKickCheck()));
+		statsJLabel.setText(Utils.generateHtmlStats(stats));
 		repaint();
 	}
 

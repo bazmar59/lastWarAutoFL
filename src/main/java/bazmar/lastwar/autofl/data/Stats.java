@@ -1,16 +1,23 @@
 package bazmar.lastwar.autofl.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Stats {
+public class Stats implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	long start = System.currentTimeMillis();
+
+	Date lastFlAction = new Date();
 
 	boolean flInitialized = false;
 
 	int countRecovery = 0, countFL = 0, moyenneFl = 0, countFLAdd = 0, countFLKick = 0, countStrat = 0, countSecu = 0,
 			countDev = 0, countScience = 0, countInter = 0, countKickStrat = 0, countKickSecu = 0, countKickDev = 0,
 			countKickScience = 0, countKickInter = 0;
+	int countMilitary = 0, countAdmin = 0, countKickMilitary = 0, countKickAdmin = 0;
+	int countFLTitle = 0;
 
 	long flTime = 0;
 
@@ -19,6 +26,34 @@ public class Stats {
 	Date nextDevKickCheck = new Date();
 	Date nextScienceKickCheck = new Date();
 	Date nextInterKickCheck = new Date();
+	Date nextMilitaryKickCheck = new Date();
+	Date nextAdminKickCheck = new Date();
+
+	Date startDateStats = new Date();
+
+	public long getStart() {
+		return start;
+	}
+
+	public void setStart(long start) {
+		this.start = start;
+	}
+
+	public Date getLastFlAction() {
+		return lastFlAction;
+	}
+
+	public void setLastFlAction(Date lastFlAction) {
+		this.lastFlAction = lastFlAction;
+	}
+
+	public boolean isFlInitialized() {
+		return flInitialized;
+	}
+
+	public void setFlInitialized(boolean flInitialized) {
+		this.flInitialized = flInitialized;
+	}
 
 	public int getCountRecovery() {
 		return countRecovery;
@@ -140,6 +175,54 @@ public class Stats {
 		this.countKickInter = countKickInter;
 	}
 
+	public int getCountMilitary() {
+		return countMilitary;
+	}
+
+	public void setCountMilitary(int countMilitary) {
+		this.countMilitary = countMilitary;
+	}
+
+	public int getCountAdmin() {
+		return countAdmin;
+	}
+
+	public void setCountAdmin(int countAdmin) {
+		this.countAdmin = countAdmin;
+	}
+
+	public int getCountKickMilitary() {
+		return countKickMilitary;
+	}
+
+	public void setCountKickMilitary(int countKickMilitary) {
+		this.countKickMilitary = countKickMilitary;
+	}
+
+	public int getCountKickAdmin() {
+		return countKickAdmin;
+	}
+
+	public void setCountKickAdmin(int countKickAdmin) {
+		this.countKickAdmin = countKickAdmin;
+	}
+
+	public int getCountFLTitle() {
+		return countFLTitle;
+	}
+
+	public void setCountFLTitle(int countFLTitle) {
+		this.countFLTitle = countFLTitle;
+	}
+
+	public long getFlTime() {
+		return flTime;
+	}
+
+	public void setFlTime(long flTime) {
+		this.flTime = flTime;
+	}
+
 	public Date getNextStratKickCheck() {
 		return nextStratKickCheck;
 	}
@@ -180,28 +263,45 @@ public class Stats {
 		this.nextInterKickCheck = nextInterKickCheck;
 	}
 
-	public boolean isFlInitialized() {
-		return flInitialized;
+	public Date getNextMilitaryKickCheck() {
+		return nextMilitaryKickCheck;
 	}
 
-	public void setFlInitialized(boolean flInitialized) {
-		this.flInitialized = flInitialized;
+	public void setNextMilitaryKickCheck(Date nextMilitaryKickCheck) {
+		this.nextMilitaryKickCheck = nextMilitaryKickCheck;
 	}
 
-	public long getStart() {
-		return start;
+	public Date getNextAdminKickCheck() {
+		return nextAdminKickCheck;
 	}
 
-	public void setStart(long start) {
-		this.start = start;
+	public void setNextAdminKickCheck(Date nextAdminKickCheck) {
+		this.nextAdminKickCheck = nextAdminKickCheck;
 	}
 
-	public long getFlTime() {
-		return flTime;
+	public Date getStartDateStats() {
+		return startDateStats;
 	}
 
-	public void setFlTime(long flTime) {
-		this.flTime = flTime;
+	public void setStartDateStats(Date startDateStats) {
+		this.startDateStats = startDateStats;
+	}
+
+	@Override
+	public String toString() {
+		return "Stats [start=" + start + ", lastFlAction=" + lastFlAction + ", flInitialized=" + flInitialized
+				+ ", countRecovery=" + countRecovery + ", countFL=" + countFL + ", moyenneFl=" + moyenneFl
+				+ ", countFLAdd=" + countFLAdd + ", countFLKick=" + countFLKick + ", countStrat=" + countStrat
+				+ ", countSecu=" + countSecu + ", countDev=" + countDev + ", countScience=" + countScience
+				+ ", countInter=" + countInter + ", countKickStrat=" + countKickStrat + ", countKickSecu="
+				+ countKickSecu + ", countKickDev=" + countKickDev + ", countKickScience=" + countKickScience
+				+ ", countKickInter=" + countKickInter + ", countMilitary=" + countMilitary + ", countAdmin="
+				+ countAdmin + ", countKickMilitary=" + countKickMilitary + ", countKickAdmin=" + countKickAdmin
+				+ ", countFLTitle=" + countFLTitle + ", flTime=" + flTime + ", nextStratKickCheck=" + nextStratKickCheck
+				+ ", nextSecuKickCheck=" + nextSecuKickCheck + ", nextDevKickCheck=" + nextDevKickCheck
+				+ ", nextScienceKickCheck=" + nextScienceKickCheck + ", nextInterKickCheck=" + nextInterKickCheck
+				+ ", nextMilitaryKickCheck=" + nextMilitaryKickCheck + ", nextAdminKickCheck=" + nextAdminKickCheck
+				+ ", startDateStats=" + startDateStats + "]";
 	}
 
 }

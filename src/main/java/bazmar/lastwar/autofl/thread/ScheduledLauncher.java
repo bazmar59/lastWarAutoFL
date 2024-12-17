@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.LoggerFactory;
 
 import bazmar.lastwar.autofl.LastWarMain;
+import bazmar.lastwar.autofl.data.Stats;
+import bazmar.lastwar.autofl.io.Serializer;
 import bazmar.lastwar.autofl.utils.ProcessManager;
 import ch.qos.logback.classic.Logger;
 
@@ -16,10 +18,13 @@ public class ScheduledLauncher {
 
 	private ScheduledExecutorService executor;
 
-	public void autoRestartBot() {
+	public void autoRestartBot(Stats stats) {
 		executor = Executors.newSingleThreadScheduledExecutor();
 		Runnable task = () -> {
 			logger.info("autoRestartBot");
+
+			Serializer.saveStats(stats);
+
 			if (LastWarMain.PAUSE) {
 				logger.info("autoRestartBot bypass (PAUSE)");
 				return;

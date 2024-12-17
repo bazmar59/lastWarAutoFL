@@ -11,12 +11,15 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import bazmar.lastwar.autofl.data.Stats;
 import bazmar.lastwar.autofl.image.Image;
 import bazmar.lastwar.autofl.io.Frame;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
 
 public class Utils {
+
+	private static final String STATS_FL_TEXT = FileManager.readFile("stats.html");
 
 	public static void pause(int ms) {
 		try {
@@ -88,23 +91,6 @@ public class Utils {
 		return bufferedImage;
 	}
 
-	public static String getWritableZoneName(String zone) {
-		switch (zone) {
-		case "zoneFLStrat":
-			return "Heal buff";
-		case "zoneFLSecu":
-			return "Troops buff";
-		case "zoneFLDev":
-			return "Build buff";
-		case "zoneFLScience":
-			return "Science buff";
-		case "zoneFLInter":
-			return "Rss buff";
-		default:
-			return "Unknown";
-		}
-	}
-
 	public static Date getNextMinute(int minutes) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, minutes);
@@ -119,6 +105,19 @@ public class Utils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String generateHtmlStats(Stats stats) {
+
+		return STATS_FL_TEXT.formatted(stats.isFlInitialized(), stats.getMoyenneFl(), stats.getCountFL(),
+				stats.getCountRecovery(), stats.getLastFlAction(), stats.getStartDateStats(), stats.getCountFLAdd(),
+				stats.getCountFLTitle(), stats.getCountStrat(), stats.getCountSecu(), stats.getCountDev(),
+				stats.getCountScience(), stats.getCountInter(), stats.getCountMilitary(), stats.getCountAdmin(),
+				stats.getCountFLKick(), stats.getCountKickStrat(), stats.getCountKickSecu(), stats.getCountKickDev(),
+				stats.getCountKickScience(), stats.getCountKickInter(), stats.getCountKickMilitary(),
+				stats.getCountKickAdmin(), stats.getNextStratKickCheck(), stats.getNextSecuKickCheck(),
+				stats.getNextDevKickCheck(), stats.getNextScienceKickCheck(), stats.getNextInterKickCheck(),
+				stats.getNextMilitaryKickCheck(), stats.getNextAdminKickCheck());
 	}
 
 }

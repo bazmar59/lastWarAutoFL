@@ -20,6 +20,7 @@ public class Images {
 
 	// FL related images
 	public static Image imgFLTitle = FileManager.loadImage(Constants.PNG_FL_TITLE);
+	public static Image imgFLTitle8 = FileManager.loadImage(Constants.PNG_FL_TITLE8);
 	public static Image imgFLZero = FileManager.loadImage(Constants.PNG_FL_ZERO);
 	public static Image imgFLZero2 = FileManager.loadImage(Constants.PNG_FL_ZERO2);
 	public static Image imgFLZeroWhite = FileManager.loadImage(Constants.PNG_FL_ZERO_WHITE);
@@ -31,5 +32,9 @@ public class Images {
 	public static Image imgFLListExist = FileManager.loadImage(Constants.PNG_FL_LIST_EXIST);
 	public static Image imgFLNotif = FileManager.loadImage(Constants.PNG_FL_NOTIF);
 	public static Image imgFLVacant = FileManager.loadImage(Constants.PNG_FL_VACANT);
+	public static Image imgFLVacant2 = FileManager.loadImage(Constants.PNG_FL_VACANT2);
+	public static Image imgFL50 = FileManager.loadImage(Constants.PNG_FL_50);
+	public static Image imgFLConquerant = FileManager.loadImage(Constants.PNG_FL_CONQUERANT);
+	public static Image imgFLCommandantMilitaire = FileManager.loadImage(Constants.PNG_FL_COMMANADANT_MILITAIRE);
 
 }

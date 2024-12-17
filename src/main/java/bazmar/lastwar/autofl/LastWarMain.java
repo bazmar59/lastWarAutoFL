@@ -1,6 +1,7 @@
 package bazmar.lastwar.autofl;
 
 import java.nio.file.Paths;
+import java.util.Date;
 
 import javax.swing.SwingUtilities;
 
@@ -20,6 +21,7 @@ import bazmar.lastwar.autofl.io.Frame;
 import bazmar.lastwar.autofl.io.KeyScanner;
 import bazmar.lastwar.autofl.io.Mouse;
 import bazmar.lastwar.autofl.io.Screen;
+import bazmar.lastwar.autofl.io.Serializer;
 import bazmar.lastwar.autofl.thread.ScheduledLauncher;
 import bazmar.lastwar.autofl.utils.FileManager;
 import bazmar.lastwar.autofl.utils.Utils;
@@ -45,6 +47,8 @@ public class LastWarMain {
 
 	private static FirstLady fl;
 
+	private static Stats stats = Serializer.loadStats();
+
 	public static void main(String[] args) throws Exception {
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -55,7 +59,8 @@ public class LastWarMain {
 
 		mouseScreen1 = Mouse.getInstance(Constants.DEFAULT_CONTEXT);
 		mouseScreen2 = Mouse.getInstance(Constants.DEFAULT_CONTEXT_2);
-		Stats stats = new Stats();
+
+		stats.setLastFlAction(new Date());
 		init(false, stats);
 		reloadContexts();
 
@@ -63,7 +68,7 @@ public class LastWarMain {
 		KeyScanner keyScanner = new KeyScanner();
 		Utils.updateLogs();
 		ScheduledLauncher scheduledLauncher = new ScheduledLauncher();
-		scheduledLauncher.autoRestartBot();
+		scheduledLauncher.autoRestartBot(stats);
 		Frame.updateLocation(contextFL.origX() + contextFL.width() + 40, 0, contextFL.screenIndex());
 
 		firstLadyRoutine(stats);
@@ -226,4 +231,45 @@ public class LastWarMain {
 			}
 		}
 	}
+
+	public static void resetRecoveryCount() {
+		stats.setCountRecovery(0);
+	}
+
+	public static void resetStats() {
+		logger.info("RESET STATS");
+		stats.setCountAdmin(0);
+		stats.setCountDev(0);
+		stats.setCountFL(0);
+		stats.setCountFLAdd(0);
+		stats.setCountFLKick(0);
+		stats.setCountFLTitle(0);
+		stats.setCountInter(0);
+		stats.setCountKickAdmin(0);
+		stats.setCountKickDev(0);
+		stats.setCountKickInter(0);
+		stats.setCountKickMilitary(0);
+		stats.setCountKickScience(0);
+		stats.setCountKickSecu(0);
+		stats.setCountKickStrat(0);
+		stats.setCountMilitary(0);
+		stats.setCountRecovery(0);
+		stats.setCountScience(0);
+		stats.setCountSecu(0);
+		stats.setCountStrat(0);
+		stats.setLastFlAction(new Date());
+		stats.setFlTime(0);
+		stats.setMoyenneFl(0);
+		stats.setNextAdminKickCheck(new Date());
+		stats.setNextDevKickCheck(new Date());
+		stats.setNextInterKickCheck(new Date());
+		stats.setNextMilitaryKickCheck(new Date());
+		stats.setNextScienceKickCheck(new Date());
+		stats.setNextSecuKickCheck(new Date());
+		stats.setNextStratKickCheck(new Date());
+		stats.setStart(0);
+		stats.setStartDateStats(new Date());
+		Frame.updateFrameStats(stats);
+	}
+
 }

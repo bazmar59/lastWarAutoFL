@@ -13,6 +13,7 @@ public class Constants {
 	public static final String DEBUG_SCREEN_PATH = SANDBOX_PATH + "debug/";
 	public static final String TMP_SCREEN_PATH = SANDBOX_PATH + "tmp/";
 	public static final String KICK_SCREEN_PATH = SANDBOX_PATH + "kick/";
+	public static final String STATS_PATH = SANDBOX_PATH + "stats.ser";
 
 	/**
 	 * Image default diff marging
@@ -50,6 +51,7 @@ public class Constants {
 	public static final String PNG_BUTTON_YELLOW = Constants.PROJECT_IMAGES_PATH + "button/yellow.png";
 
 	public static final String PNG_FL_TITLE = Constants.PROJECT_IMAGES_PATH + "fl/title.png";
+	public static final String PNG_FL_TITLE8 = Constants.PROJECT_IMAGES_PATH + "fl/title8.png";
 	public static final String PNG_FL_ZERO = Constants.PROJECT_IMAGES_PATH + "fl/zero.png";
 	public static final String PNG_FL_ZERO2 = Constants.PROJECT_IMAGES_PATH + "fl/zero2.png";
 	public static final String PNG_FL_ZERO_WHITE = Constants.PROJECT_IMAGES_PATH + "fl/zero_white.png";
@@ -61,5 +63,9 @@ public class Constants {
 	public static final String PNG_FL_LIST_EXIST = Constants.PROJECT_IMAGES_PATH + "fl/list_exist.png";
 	public static final String PNG_FL_NOTIF = Constants.PROJECT_IMAGES_PATH + "fl/notif.png";
 	public static final String PNG_FL_VACANT = Constants.PROJECT_IMAGES_PATH + "fl/vacant.png";
-
+	public static final String PNG_FL_VACANT2 = Constants.PROJECT_IMAGES_PATH + "fl/vacant2.png";
+	public static final String PNG_FL_50 = Constants.PROJECT_IMAGES_PATH + "fl/50.png";
+	public static final String PNG_FL_CONQUERANT = Constants.PROJECT_IMAGES_PATH + "fl/conquerant.png";
+	public static final String PNG_FL_COMMANADANT_MILITAIRE = Constants.PROJECT_IMAGES_PATH
+			+ "fl/commandantmilitaire.png";
 }

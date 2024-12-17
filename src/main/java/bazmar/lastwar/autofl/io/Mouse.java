@@ -92,6 +92,18 @@ public class Mouse {
 		}
 	}
 
+	public synchronized void drag(int x, int y) {
+		drag(x, y, false);
+	}
+
+	public synchronized void drag(int x, int y, boolean fromCenter) {
+		if (fromCenter) {
+			dragFrom(x, y, width / 2, height / 2, true);
+		} else {
+			dragFrom(x, y, 0, 0, false);
+		}
+	}
+
 	public synchronized void dragFrom(int x, int y, int fromX, int fromY, boolean useFrom) {
 		dragFrom(x, y, fromX, fromY, useFrom, screenIndex);
 	}
