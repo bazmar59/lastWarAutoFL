@@ -509,6 +509,10 @@ public class FirstLady {
 			Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
 			mouseFl.drag(0, 300, true);
 			Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
+			mouseFl.drag(0, 300, true);
+			Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
+			mouseFl.drag(0, 300, true);
+			Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
 		}
 		mouseFl.clickCenter(Zones.zoneFLAccept);
 		stats.setLastFlAction(new Date());
