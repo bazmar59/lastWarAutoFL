@@ -40,18 +40,12 @@ public class Utils {
 	}
 
 	public static Object humanReadableDate() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss");
-		return sdf.format(new Date());
+		return humanReadableDate(new Date());
 	}
 
-	public static BufferedImage bufferedImage(String pathImage) {
-		BufferedImage bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(pathImage));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return bufferedImage;
+	public static Object humanReadableDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss");
+		return sdf.format(date);
 	}
 
 	public static Image bufferedImageToImage(BufferedImage bufferedImage) throws IOException {
@@ -94,6 +88,13 @@ public class Utils {
 	public static Date getNextMinute(int minutes) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, minutes);
+
+		return cal.getTime();
+	}
+
+	public static Date getPastMinute(int minutes) {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, -minutes);
 
 		return cal.getTime();
 	}

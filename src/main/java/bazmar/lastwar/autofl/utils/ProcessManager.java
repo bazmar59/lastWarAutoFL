@@ -17,12 +17,25 @@ public class ProcessManager {
 		startProcess(BOT_FL_PROCESS);
 	}
 
-	public static void killBluestackX() {
-		killProcess(BLUESTACK_X_PROCESS_NAME);
-		killProcess(BLUESTACK_PROCESS_NAME);
+	public static void killBotFL() {
+		killProcess(BOT_FL_PROCESS);
+		killBluestack();
 	}
 
-	private static void killProcess(String processName) {
+	public static void restartBotFL() {
+		logger.info("restartBotFL");
+		ProcessManager.killBotFL();
+		Utils.pause(5000);
+		ProcessManager.startBotFL();
+	}
+
+	public static void killBluestack() {
+		logger.info("killBluestack");
+		killProcess(BLUESTACK_PROCESS_NAME);
+		killProcess(BLUESTACK_X_PROCESS_NAME);
+	}
+
+	private static boolean killProcess(String processName) {
 		String command = "taskkill /F /IM \"" + processName + "\"";
 
 		try {
@@ -34,15 +47,17 @@ public class ProcessManager {
 			int exitCode = process.exitValue();
 			if (exitCode == 0) {
 				logger.info("process {} killed with success", processName);
+				return true;
 			} else {
 				logger.info("Error to kill process {} exitCode {}", processName, exitCode);
 			}
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
-	public static void startProcess(String processName) {
+	private static void startProcess(String processName) {
 
 		ProcessBuilder processBuilder = new ProcessBuilder(processName);
 

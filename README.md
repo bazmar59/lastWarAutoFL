@@ -7,6 +7,8 @@ A bot for automatic First Lady job in the Last War mobile game
 - Multiple stats: number of additions or kicks per title.
 - Manage 6 buffs (normal case) 8 buffs when you win or when you loose the capitol
 - Manage the case of full list (50/50) and the priority
+- Automatic Bluestack start when launching program
+- Automatic Bluestack restart when FL did nothing during 10 minutes 
 
 # Installation
 - Have a 1080p screen and bluestack using the max height size 
@@ -21,7 +23,7 @@ A bot for automatic First Lady job in the Last War mobile game
 
 - Name your Bluestack instance starting with "T   " (Or replace `/lastWarAutoFL/src/main/resources/images/init/bluestack_fl.png`)
 - `mvn clean install`
-- Launch the executable JAR `lastWarAutoFl-2.0.0.jar` in `C:/sandbox/LastWar Auto FL`
+- Launch the executable JAR `lastWarAutoFl-2.0.1.jar` in `C:/sandbox/LastWar Auto FL`
 
 # Issues
 If nothing happen, run as admin.

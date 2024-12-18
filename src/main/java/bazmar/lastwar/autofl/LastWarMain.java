@@ -16,6 +16,7 @@ import bazmar.lastwar.autofl.data.Images;
 import bazmar.lastwar.autofl.data.Stats;
 import bazmar.lastwar.autofl.data.Zone;
 import bazmar.lastwar.autofl.data.Zones;
+import bazmar.lastwar.autofl.exception.FlListNotFound;
 import bazmar.lastwar.autofl.image.ImageReco;
 import bazmar.lastwar.autofl.io.Frame;
 import bazmar.lastwar.autofl.io.KeyScanner;
@@ -24,6 +25,7 @@ import bazmar.lastwar.autofl.io.Screen;
 import bazmar.lastwar.autofl.io.Serializer;
 import bazmar.lastwar.autofl.thread.ScheduledLauncher;
 import bazmar.lastwar.autofl.utils.FileManager;
+import bazmar.lastwar.autofl.utils.ProcessManager;
 import bazmar.lastwar.autofl.utils.Utils;
 import ch.qos.logback.classic.Logger;
 
@@ -41,7 +43,7 @@ public class LastWarMain {
 	static Screen screenFl;
 	public static Context contextFL;
 
-	public static int PAUSE_BETWEEN_FL_ROUTINE = 5000;
+	public static int PAUSE_BETWEEN_FL_ROUTINE = 1000;
 	public static int PAUSE_BETWEEN_FL_ACTION = 1000;
 	public static volatile boolean PAUSE = false;
 
@@ -77,7 +79,11 @@ public class LastWarMain {
 
 	private static void firstLadyRoutine(Stats stats) {
 		while (1 > 0) {
-			fl.firstLadySingleRoutine(stats);
+			try {
+				fl.firstLadySingleRoutine(stats);
+			} catch (FlListNotFound e) {
+				logger.error("firstLadySingleRoutine exception %s".formatted(e.getMessage()));
+			}
 			Utils.pause(PAUSE_BETWEEN_FL_ROUTINE);
 			while (PAUSE) {
 				Utils.pause(1000);
@@ -123,6 +129,9 @@ public class LastWarMain {
 			stats.setFlInitialized(loadFlContext());
 			if (contextFL != null) {
 				flInitialized = true;
+			} else {
+				ProcessManager.startBotFL();
+				Utils.pause(30000);
 			}
 		}
 		Frame.updateLocation(contextFL.origX() + contextFL.width() + 40, 0, contextFL.screenIndex());

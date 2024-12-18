@@ -63,6 +63,10 @@ public class Stats implements Serializable {
 		this.countRecovery = countRecovery;
 	}
 
+	public void incrementCountRecovery() {
+		this.countRecovery = countRecovery + 1;
+	}
+
 	public int getCountFL() {
 		return countFL;
 	}

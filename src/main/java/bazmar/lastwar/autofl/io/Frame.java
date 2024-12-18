@@ -40,7 +40,7 @@ public class Frame {
 	private static JLabel currentBOT = new JLabel("", JLabel.CENTER);
 	private static JLabel timer = new JLabel("", JLabel.CENTER);
 	private static JTextArea logsTextArea = new JTextArea(50, 50);
-	private static JFrame frame = new JFrame("Bazmar FL Bot v2.0.0");
+	private static JFrame frame = new JFrame("Bazmar FL Bot v2.0.1");
 	private static JButton buttonScreenDebugFl = new JButton("FL debug screenshot");
 	private static JButton buttonScreenDebug1 = new JButton("SCREEN 1 debug screenshot");
 	private static JButton buttonScreenDebug2 = new JButton("SCREEN 2 debug screenshot");

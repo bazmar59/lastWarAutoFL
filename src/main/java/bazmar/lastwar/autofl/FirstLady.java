@@ -14,6 +14,7 @@ import bazmar.lastwar.autofl.data.Images;
 import bazmar.lastwar.autofl.data.Stats;
 import bazmar.lastwar.autofl.data.Zone;
 import bazmar.lastwar.autofl.data.Zones;
+import bazmar.lastwar.autofl.exception.FlListNotFound;
 import bazmar.lastwar.autofl.image.Image;
 import bazmar.lastwar.autofl.image.ImageReco;
 import bazmar.lastwar.autofl.io.Frame;
@@ -36,7 +37,7 @@ public class FirstLady {
 		this.screenFl = screenFl;
 	}
 
-	public void firstLadySingleRoutine(Stats stats) {
+	public void firstLadySingleRoutine(Stats stats) throws FlListNotFound {
 		Frame.updateCurrentBot(BotType.FL);
 		long start = System.currentTimeMillis();
 
@@ -96,7 +97,7 @@ public class FirstLady {
 		Frame.updateFrameStats(stats);
 	}
 
-	private void acceptIfNeeded(Zone currentZone, Stats stats) {
+	private void acceptIfNeeded(Zone currentZone, Stats stats) throws FlListNotFound {
 
 		Image notif = screenFl.screenMemory(currentZone);
 		if (ImageReco.findFirst(notif, Images.imgFLNotif) != null) {
@@ -129,15 +130,14 @@ public class FirstLady {
 		}
 	}
 
-	private boolean waitFlListWhenAvailable() {
+	private boolean waitFlListWhenAvailable() throws FlListNotFound {
 		Utils.pause(500);
 		int iter = 0;
 		while (ImageReco.findFirst(screenFl.screenMemory(Zones.zoneFLList), Images.imgFLListExist) == null) {
 			Utils.pause(100);
 			iter++;
 			if (iter > 50) {
-				recoveryIfListNotExist();
-				return false;
+				throw new FlListNotFound("%s not found with %s iter".formatted(Images.imgFLListExist.getName(), iter));
 			}
 		}
 		if (iter < 50) {
@@ -308,12 +308,6 @@ public class FirstLady {
 
 				} else {
 					logger.info("Nobody to reject");
-
-					if (recoveryIfListNotExist()) {
-						stats.setCountRecovery(stats.getCountRecovery() + 1);
-						return;
-					}
-
 					mouseFl.clickCenter(Zones.zoneFLClose);
 					Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
 				}
@@ -430,8 +424,8 @@ public class FirstLady {
 				if (returnBlueStack == null) {
 					logger.info("RECOVERY PLAN ReturnBluestack not found Wait 60s for restart");
 					screenFl.screenMemory(0, 0, 1920, 1080, true, "RECOVERY_FL_NO_RETURN_BLUSTACK");
-					stats.setCountRecovery(stats.getCountRecovery() + 1);
-					ProcessManager.killBluestackX();
+					stats.incrementCountRecovery();
+					ProcessManager.restartBotFL();
 					Utils.pause(60000);
 					LastWarMain.reloadContexts();
 				}
@@ -447,48 +441,18 @@ public class FirstLady {
 				Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
 
 				findWorldOrBaseTry++;
-				// Maybe a big menu => Game not yet started
-				if (findWorldOrBaseTry > 10 && ImageReco.findFirst(screenFl.screenMemory(0, 0, 1920, 40, true),
-						Images.imgBigBluestackMenu, 10) != null) {
-					logger.info("RECOVERY PLAN Big menu found wait 60s for game restart");
+				if (findWorldOrBaseTry > 10) {
+					logger.info("RECOVERY PLAN world or base not found. Wait 70s");
 					screenFl.screenMemory(0, 0, 1920, 1080, true,
 							"RECOVERY_FL_UP10_ITER_%s".formatted(findWorldOrBaseTry));
-					ProcessManager.killBluestackX();
-					stats.setCountRecovery(stats.getCountRecovery() + 1);
-					Utils.pause(60000);
+					ProcessManager.restartBotFL();
+					stats.incrementCountRecovery();
+					Utils.pause(70000);
 					LastWarMain.reloadContexts();
 					findWorldOrBaseTry = 0;
-				}
-
-				if (findWorldOrBaseTry > 20) {
-					logger.info("RECOVERY PLAN Click reconnect if exists and wait 60s");
-					screenFl.screenMemory(0, 0, 1920, 1080, true,
-							"RECOVERY_FL_UP20_ITER_%s".formatted(findWorldOrBaseTry));
-					stats.setCountRecovery(stats.getCountRecovery() + 1);
-					mouseFl.clickCenter(
-							ImageReco.findFirst(screenFl.screenMemory(Zones.zoneFLGame), Images.imgButtonBlue));
-					Utils.pause(60000);
-					LastWarMain.reloadContexts();
-					findWorldOrBaseTry = 0;
-				}
-
-				if (findWorldOrBaseTry > 30) {
-					logger.info("RECOVERY PLAN Click reconnect if exists and wait 60s");
-					screenFl.screenMemory(0, 0, 1920, 1080, true,
-							"RECOVERY_FL_UP30_ITER_%s".formatted(findWorldOrBaseTry));
-					stats.setCountRecovery(stats.getCountRecovery() + 1);
-					ProcessManager.killBluestackX();
-					Utils.pause(60000);
-					LastWarMain.reloadContexts();
-					findWorldOrBaseTry = 0;
-				}
-
-				if (findWorldOrBaseTry > 40) {
-					logger.info("RECOVERY PLAN BREAK");
-					screenFl.screenMemory(0, 0, 1920, 1080, true,
-							"RECOVERY_FL_BREAK_ITER_%s".formatted(findWorldOrBaseTry));
 					break;
 				}
+
 				if (LastWarMain.PAUSE) {
 					Utils.pause(1000);
 				}
@@ -614,26 +578,6 @@ public class FirstLady {
 			Frame.updateFrameStats(stats);
 		}
 
-	}
-
-	private boolean recoveryIfListNotExist() {
-		int maxAttempts = 5;
-		for (int attempt = 0; attempt < maxAttempts; attempt++) {
-			if (ImageReco.findFirst(screenFl.screenMemory(Zones.zoneFLList), Images.imgFLListExist, 10) != null) {
-				return false;
-			}
-			if (attempt > 2) {
-				screenFl.screenMemory(Zones.zoneFLList, true, "RECOVERY_LIST_KO_ITER_%s".formatted(attempt));
-			}
-			Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
-		}
-
-		logger.info("RECOVERY PLAN List not exist (Connected by phone recently ?) wait 60s for game restart");
-		screenFl.screenMemory(Zones.zoneFLList, true, "RECOVERY_LIST_KO");
-		ProcessManager.killBluestackX();
-		Utils.pause(60000);
-		LastWarMain.reloadContexts();
-		return true;
 	}
 
 	private void clickReturnBlueStack() {
