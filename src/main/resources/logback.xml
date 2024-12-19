@@ -6,8 +6,8 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/lastwar.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/archives/lastwar.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
-            <maxHistory>48</maxHistory>
+            <fileNamePattern>logs/archives/lastwar.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
         <append>true</append> <!-- Append to existing log file (if any) -->
         <encoder>
