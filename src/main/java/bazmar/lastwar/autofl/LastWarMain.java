@@ -194,7 +194,12 @@ public class LastWarMain {
 
 			Zone bottomMenuZone = null;
 			Coord endCoord = null;
-			while (endCoord == null) {
+
+			int maxAttempts = 10;
+			int attempt = 0;
+
+			while (endCoord == null && attempt < maxAttempts) {
+				attempt++;
 
 				if (botType.equals(BotType.FL)) {
 					bottomMenuZone = new Zone(origCoord.getLeftBottomX(), 1080 - 100, 600, 100, screenIndex,
@@ -203,6 +208,19 @@ public class LastWarMain {
 
 				endCoord = ImageReco.findFirst(screenAll.screenMemory(bottomMenuZone, true),
 						Images.imgBluestackFullScreen, 20);
+
+				if (endCoord == null) {
+					logger.info("Try %s/%s: endCoord not found".formatted(attempt, maxAttempts));
+					Utils.pause(LastWarMain.PAUSE_BETWEEN_FL_ACTION);
+				}
+			}
+
+			if (endCoord == null) {
+				logger.error("RECOVERY endCoord not found after %s try Reboot and wait 60s".formatted(attempt));
+				ProcessManager.restartBotFL();
+				stats.incrementCountRecovery();
+				Utils.pause(60000);
+				return null;
 			}
 
 			endCoord = Zones.putInGameXYValues(endCoord, bottomMenuZone);

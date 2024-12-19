@@ -21,7 +21,7 @@ public class ScheduledLauncher {
 	private ScheduledExecutorService executor;
 
 	public void autoRestartBot(Stats stats) {
-		executor = Executors.newSingleThreadScheduledExecutor();
+		executor = Executors.newScheduledThreadPool(10);
 		Runnable task = () -> {
 			logger.info("autoRestartBot lastFLAction %s".formatted(Utils.humanReadableDate(stats.getLastFlAction())));
 
@@ -33,6 +33,7 @@ public class ScheduledLauncher {
 				ProcessManager.restartBotFL();
 				stats.incrementCountRecovery();
 				stats.setLastFlAction(new Date());
+				LastWarMain.PAUSE = false;
 				return;
 			}
 
