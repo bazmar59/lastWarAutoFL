@@ -114,7 +114,7 @@ public class Zones {
 		zoneFLAccept = new Zone(400, 205, (441 - 400), (243 - 205), true, context, "zoneFLAccept");
 		zoneFLList = new Zone(470, 823, (500 - 470), (859 - 823), true, context, "zoneFLList");
 		zoneFLClose = new Zone(503, 85, (531 - 503), (110 - 85), true, context, "zoneFLClose");
-		zoneFL253 = new Zone(313, 650, (500 - 313), (720 - 650), true, context, "zoneFL253");
+		zoneFL253 = new Zone(350, 310, 50, 50, true, context, "zoneFL253");
 		zoneFLAvatar = new Zone(12, 13, (72 - 12), (73 - 13), true, context, "zoneFLAvatar");
 		zoneFLTime = new Zone(327, 285, (436 - 327), (315 - 285), true, context, "zoneFLTime");
 		zoneFLReject = new Zone(125, 821, (270 - 125), (877 - 821), true, context, "zoneFLReject");
