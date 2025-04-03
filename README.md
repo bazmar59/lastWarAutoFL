@@ -26,5 +26,5 @@ A bot for automatic First Lady job in the Last War mobile game
 - Launch the executable JAR `lastWarAutoFl-2.0.1.jar` in `C:/sandbox/LastWar Auto FL`
 
 # Issues
-If nothing happen, run as admin.
+If nothing happen, run as admin.   
 Switch nvidia graphics setting from windows colours to nvidia colour scheme
