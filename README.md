@@ -27,3 +27,4 @@ A bot for automatic First Lady job in the Last War mobile game
 
 # Issues
 If nothing happen, run as admin.
+Switch nvidia graphics setting from windows colours to nvidia colour scheme
