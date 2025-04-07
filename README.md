@@ -21,7 +21,7 @@ A bot for automatic First Lady job in the Last War mobile game
 > You can create a shortcut to have this information:    
 ![shortcut](screens/shortcut.png)
 
-- Name your Bluestack instance starting with "T   " (Or replace `/lastWarAutoFL/src/main/resources/images/init/bluestack_fl.png`)
+- Name your Bluestack instance starting with "T&nbsp;&nbsp;&nbsp;" **3 spaces after the T** (Or replace `/lastWarAutoFL/src/main/resources/images/init/bluestack_fl.png`)
 - `mvn clean install`
 - Launch the executable JAR `lastWarAutoFl-2.0.1.jar` in `C:/sandbox/LastWar Auto FL`
 
